@@ -1,0 +1,12 @@
+name: TpHistory
+version: '${project.version}'
+main: me.thecatisbest.tphistory.TpHistory
+api-version: '1.13'
+commands:
+  tpb:
+    description: Open the GUI
+    usage: /tpb
+permissions:
+  tphistory.use:
+    description: 允许使用传送历史功能
+    default: true
