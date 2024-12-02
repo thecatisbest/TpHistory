@@ -98,7 +98,7 @@ public class TeleportManager {
 
         TeleportRecord record = history.get(index);
         player.teleport(record.getLocation());
-        player.sendMessage(Utils.color(" #fb0867系統 &7| #ccfcbe已成功&7傳送到選擇的位置！"));
+        player.sendMessage(Utils.color(" #afdcff系統 &f⋅ #ccfcbe已成功&7傳送到選擇的位置！"));
     }
 
     public void clearHistory(UUID playerId) {

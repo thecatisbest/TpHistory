@@ -29,11 +29,11 @@ public class TeleportListener implements Listener {
         if (isSameLocation(from, to)) {
             MiniMessage miniMessage = MiniMessage.miniMessage();
 
-            Component message1 = miniMessage.deserialize(" <#fb0867>系統</#fb0867> <gray>| 你進行了傳送，但是此位置已在記錄中，")
+            Component message1 = miniMessage.deserialize(" <#afdcff>系統</#afdcff><white> ⋅ <gray>你進行了傳送，但是此位置已在記錄中，")
                     .clickEvent(ClickEvent.runCommand("/tpb"))
                     .hoverEvent(HoverEvent.showText(miniMessage.deserialize("<gray>點擊開啟傳送記錄")));
 
-            Component message2 = miniMessage.deserialize(" <#fb0867>系統</#fb0867> <gray>| 因此不會重複記錄，點此查看<#e6bbf6>近期傳送記錄<gray>。")
+            Component message2 = miniMessage.deserialize(" <#afdcff>系統</#afdcff><white> ⋅ <gray>因此不會重複記錄，點此查看<#e6bbf6>近期傳送記錄<gray>。")
                     .clickEvent(ClickEvent.runCommand("/tpb"))
                     .hoverEvent(HoverEvent.showText(miniMessage.deserialize("<gray>點擊開啟傳送記錄")));
 
@@ -58,7 +58,7 @@ public class TeleportListener implements Listener {
             plugin.getTeleportManager().addTeleportRecord(player, record);
 
             MiniMessage miniMessage = MiniMessage.miniMessage();
-            Component message = miniMessage.deserialize(" <#fb0867>系統 <gray>| 已記錄傳送前的位置，點此查看<#e6bbf6>近期傳送記錄<gray>。")
+            Component message = miniMessage.deserialize(" <#afdcff>系統</#afdcff><white> ⋅ <gray>已記錄傳送前的位置，點此查看<#e6bbf6>近期傳送記錄<gray>。")
                     .clickEvent(ClickEvent.runCommand("/tpb"))
                     .hoverEvent(HoverEvent.showText(miniMessage.deserialize("<gray>點擊開啟傳送記錄")));
 
