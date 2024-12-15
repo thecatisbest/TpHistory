@@ -31,6 +31,12 @@ public class TeleportGUI implements Listener {
         this.plugin = plugin;
     }
 
+    // 定义可用槽位
+    private List<Integer> availableSlots = Arrays.asList(
+            10, 11, 12, 13, 14, 15, 16,
+            19, 20, 21, 22, 23, 24, 25
+    );
+
     public void openTeleportHistory(Player player) {
         Inventory gui = Bukkit.createInventory(new TeleportGUIHolder(), GUI_SIZE, Utils.color("&8近期傳送記錄"));
         List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());
@@ -43,12 +49,6 @@ public class TeleportGUI implements Listener {
             addFunctionButtons(gui);
             return;
         }
-
-        // 定义可用槽位
-        List<Integer> availableSlots = Arrays.asList(
-                10, 11, 12, 13, 14, 15, 16,
-                19, 20, 21, 22, 23, 24, 25
-        );
 
         // 遍历历史记录并填充到可用槽位
         int historySize = history.size();
@@ -165,7 +165,9 @@ public class TeleportGUI implements Listener {
 
             if (event.getSlot() >= 10 && event.getSlot() <= 27) {
                 ClickType clickType = event.getClick();
-                int index = event.getSlot() - 10; // 对应的记录索引
+                // 计算正确的索引，从新到旧排列
+                List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());
+                int index = history.size() - (event.getSlot() - 10) - 1;
 
                 if (clickType == ClickType.LEFT) {
                     plugin.getTeleportManager().teleportToHistory(player, index);
