@@ -163,7 +163,7 @@ public class TeleportGUI implements Listener {
                 player.closeInventory();
             }
 
-            if (event.getSlot() >= 10 && event.getSlot() <= 27) {
+            if (availableSlots.contains(event.getSlot())) {
                 ClickType clickType = event.getClick();
                 // 计算正确的索引，从新到旧排列
                 List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());

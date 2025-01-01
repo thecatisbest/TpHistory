@@ -1,11 +1,11 @@
-name: TpHistory
+name: WinterTpHistory
 version: '${project.version}'
 main: me.thecatisbest.tphistory.TpHistory
 api-version: '1.13'
 commands:
-  tpb:
+  backui:
     description: Open the GUI
-    usage: /tpb
+    usage: /backui
 permissions:
   tphistory.use:
     description: 允许使用传送历史功能

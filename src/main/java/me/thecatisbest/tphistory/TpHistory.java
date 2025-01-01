@@ -23,7 +23,7 @@ public class TpHistory extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TeleportGUI(this), this);
 
         // 注册命令
-        getCommand("tpb").setExecutor((sender, cmd, label, args) -> {
+        getCommand("backui").setExecutor((sender, cmd, label, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 teleportGUI.openTeleportHistory(player);
@@ -41,5 +41,8 @@ public class TpHistory extends JavaPlugin {
 
     public TeleportManager getTeleportManager() {
         return teleportManager;
+    }
+    public TeleportGUI getTeleportGUI() {
+        return teleportGUI;
     }
 }
