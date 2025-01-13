@@ -12,6 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 public class TeleportListener implements Listener {
     private final TpHistory plugin;
 
@@ -19,11 +22,26 @@ public class TeleportListener implements Listener {
         this.plugin = plugin;
     }
 
+    private static final Set<PlayerTeleportEvent.TeleportCause> IGNORED_CAUSES = EnumSet.of(
+            PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT,
+            PlayerTeleportEvent.TeleportCause.DISMOUNT,
+            PlayerTeleportEvent.TeleportCause.END_PORTAL,
+            PlayerTeleportEvent.TeleportCause.END_GATEWAY,
+            PlayerTeleportEvent.TeleportCause.ENDER_PEARL,
+            PlayerTeleportEvent.TeleportCause.EXIT_BED,
+            PlayerTeleportEvent.TeleportCause.NETHER_PORTAL,
+            PlayerTeleportEvent.TeleportCause.SPECTATE
+    );
+
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location from = event.getFrom();
         Location to = event.getTo();
+
+        if (IGNORED_CAUSES.contains(event.getCause())) {
+            return;
+        }
 
         // 檢查是否為相同位置的傳送
         if (isSameLocation(from, to)) {
