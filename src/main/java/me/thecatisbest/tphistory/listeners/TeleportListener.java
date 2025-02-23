@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,6 +41,10 @@ public class TeleportListener implements Listener {
         Location to = event.getTo();
 
         if (IGNORED_CAUSES.contains(event.getCause())) {
+            return;
+        }
+
+        if (player.getGameMode() == GameMode.SPECTATOR) {
             return;
         }
 
