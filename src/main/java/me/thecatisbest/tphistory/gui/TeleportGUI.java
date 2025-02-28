@@ -32,7 +32,7 @@ public class TeleportGUI implements Listener {
     }
 
     // 定义可用槽位
-    private List<Integer> availableSlots = Arrays.asList(
+    private final List<Integer> availableSlots = Arrays.asList(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25
     );
@@ -167,7 +167,12 @@ public class TeleportGUI implements Listener {
                 ClickType clickType = event.getClick();
                 // 计算正确的索引，从新到旧排列
                 List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());
-                int index = history.size() - (event.getSlot() - 10) - 1;
+                int slotIndex = availableSlots.indexOf(event.getSlot());
+                int index = history.size() - slotIndex - 1;
+
+                if (index < 0 || index >= history.size()) {
+                    return;
+                }
 
                 if (clickType == ClickType.LEFT) {
                     plugin.getTeleportManager().teleportToHistory(player, index);

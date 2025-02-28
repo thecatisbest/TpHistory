@@ -2,6 +2,10 @@ package me.thecatisbest.tphistory.manager;
 
 import me.thecatisbest.tphistory.TpHistory;
 import me.thecatisbest.tphistory.utils.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.*;
+
+import static me.thecatisbest.tphistory.listeners.FoliaTeleportListener.*;
 
 public class TeleportManager {
     private final TpHistory plugin;
@@ -24,7 +30,7 @@ public class TeleportManager {
         this.dataManager = new DataManager(plugin);
 
         // 在服务器启动时加载所有在线玩家的数据
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        plugin.getUtils().runDelayedTask(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 loadPlayerData(player.getUniqueId());
             }
@@ -55,7 +61,7 @@ public class TeleportManager {
         playerHistory.add(record);
 
         // 异步保存数据
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        plugin.getUtils().runAsyncTask(() -> {
             savePlayerData(playerId);
         });
     }
@@ -97,7 +103,28 @@ public class TeleportManager {
         }
 
         TeleportRecord record = history.get(index);
-        player.teleport(record.getLocation());
+        if (Utils.isFolia()) {
+            Location recorded = record.getLocation();
+            Location initialLocation = player.getLocation();
+            player.teleportAsync(record.getLocation());
+
+            if (isSameLocation(recorded, initialLocation)) {
+                MiniMessage miniMessage = MiniMessage.miniMessage();
+                Component message1 = miniMessage.deserialize(
+                                " <#afdcff>系統</#afdcff><white> ⋅ <gray>你進行了傳送，但是此位置已在記錄中，")
+                        .clickEvent(ClickEvent.runCommand("/backui"))
+                        .hoverEvent(HoverEvent.showText(miniMessage.deserialize("<gray>點擊開啟傳送記錄")));
+                Component message2 = miniMessage.deserialize(
+                                " <#afdcff>系統</#afdcff><white> ⋅ <gray>因此不會重複記錄，點此查看<#e6bbf6>近期傳送記錄<gray>。")
+                        .clickEvent(ClickEvent.runCommand("/backui"))
+                        .hoverEvent(HoverEvent.showText(miniMessage.deserialize("<gray>點擊開啟傳送記錄")));
+                player.sendMessage(message1);
+                player.sendMessage(message2);
+                return;
+            }
+        } else {
+            player.teleport(record.getLocation());
+        }
         player.sendMessage(Utils.color(" #afdcff系統 &f⋅ #ccfcbe已成功&7傳送到選擇的位置！"));
     }
 
