@@ -52,14 +52,6 @@ public class Utils {
         return colored;
     }
 
-    public void runTask(Runnable task) {
-        if (isFolia) {
-            plugin.getServer().getGlobalRegionScheduler().execute(plugin, task);
-        } else {
-            plugin.getServer().getScheduler().runTask(plugin, task);
-        }
-    }
-
     public void runDelayedTask(Runnable task, long delay) {
         if (isFolia) {
             plugin.getServer().getGlobalRegionScheduler().runDelayed(plugin, scheduledTask -> task.run(), delay);
@@ -68,7 +60,7 @@ public class Utils {
         }
     }
 
-    public void runGlobalTask(Runnable task) {
+    public void runTask(Runnable task) {
         if (isFolia) {
             plugin.getServer().getGlobalRegionScheduler().execute(plugin, task);
         } else {
