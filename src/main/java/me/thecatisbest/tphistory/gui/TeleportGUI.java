@@ -31,7 +31,6 @@ public class TeleportGUI implements Listener {
         this.plugin = plugin;
     }
 
-    // 定义可用槽位
     private final List<Integer> availableSlots = Arrays.asList(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25
@@ -42,7 +41,6 @@ public class TeleportGUI implements Listener {
         List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());
         fillBorder(gui);
 
-        // 检查 history 是否为空或无记录
         if (history == null || history.isEmpty()) {
             player.openInventory(gui);
             addNoneButtons(gui);
@@ -50,22 +48,11 @@ public class TeleportGUI implements Listener {
             return;
         }
 
-        // 遍历历史记录并填充到可用槽位
         int historySize = history.size();
         for (int i = 0; i < availableSlots.size() && i < historySize; i++) {
             TeleportRecord record = history.get(historySize - i - 1);
             gui.setItem(availableSlots.get(i), createTeleportItem(record, i + 1));
         }
-
-        /*
-        // 遍历历史记录，最多显示传送记录到 GUI
-        for (int i = 10; i < 27 && i - 10 < history.size(); i++) {
-            TeleportRecord record = history.get(i - 10); // 从列表的第一个记录开始
-            gui.setItem(i, createTeleportItem(record, i - 9));
-        }
-
-         */
-
 
         addFunctionButtons(gui);
         player.openInventory(gui);
@@ -74,13 +61,11 @@ public class TeleportGUI implements Listener {
     private void fillBorder(Inventory gui) {
         ItemStack border = createGuiItem(Material.GRAY_STAINED_GLASS_PANE, Utils.color("&7"), null);
 
-        // 填充顶部和底部边框
         for (int i = 0; i < 9; i++) {
             gui.setItem(i, border);
             gui.setItem(GUI_SIZE - 9 + i, border);
         }
 
-        // 填充左右边框
         for (int i = 0; i < GUI_SIZE / 9; i++) {
             gui.setItem(i * 9, border);
             gui.setItem(i * 9 + 8, border);
@@ -88,7 +73,6 @@ public class TeleportGUI implements Listener {
     }
 
     private void addFunctionButtons(Inventory gui) {
-        // 搜索按钮
         gui.setItem(GUI_SIZE - 5, createGuiItem(
                 Material.RED_BED,
                 Utils.color("&c關閉"),
@@ -98,7 +82,6 @@ public class TeleportGUI implements Listener {
     }
 
     private void addNoneButtons(Inventory gui) {
-        // 搜索按钮
         gui.setItem(GUI_SIZE - 23, createGuiItem(
                         Material.BARRIER,
                         Utils.color("&c暫無傳送歷史!"),
@@ -148,16 +131,6 @@ public class TeleportGUI implements Listener {
 
             event.setCancelled(true);
 
-            /*
-            int CLEAN_HISTORY = event.getInventory().getSize() - 7;
-            if (event.getSlot() == CLEAN_HISTORY) {
-                plugin.getTeleportManager().clearHistory(player.getUniqueId());
-                player.closeInventory();
-                player.sendMessage("&a已清除所有传送历史!");
-            }
-
-             */
-
             int CLOSE = event.getInventory().getSize() - 5;
             if (event.getSlot() == CLOSE) {
                 player.closeInventory();
@@ -165,7 +138,6 @@ public class TeleportGUI implements Listener {
 
             if (availableSlots.contains(event.getSlot())) {
                 ClickType clickType = event.getClick();
-                // 计算正确的索引，从新到旧排列
                 List<TeleportRecord> history = plugin.getTeleportManager().getPlayerHistory(player.getUniqueId());
                 int slotIndex = availableSlots.indexOf(event.getSlot());
                 int index = history.size() - slotIndex - 1;
@@ -180,7 +152,7 @@ public class TeleportGUI implements Listener {
                 } else if (clickType == ClickType.SHIFT_RIGHT) {
                     plugin.getTeleportManager().removeRecord(player.getUniqueId(), index);
 
-                    openTeleportHistory(player); // 刷新界面
+                    openTeleportHistory(player);
                 }
             }
         }

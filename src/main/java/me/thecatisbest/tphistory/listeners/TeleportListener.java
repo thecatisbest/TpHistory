@@ -48,7 +48,6 @@ public class TeleportListener implements Listener {
             return;
         }
 
-        // 檢查是否為相同位置的傳送
         if (isSameLocation(from, to)) {
             MiniMessage miniMessage = MiniMessage.miniMessage();
 
@@ -76,7 +75,6 @@ public class TeleportListener implements Listener {
                 from.getWorld().getName()
         );
 
-        // 檢查是否已存在相同位置的記錄
         if (!plugin.getTeleportManager().isLocationExists(player.getUniqueId(), record)) {
             plugin.getTeleportManager().addTeleportRecord(player, record);
 

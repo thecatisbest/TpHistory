@@ -37,7 +37,7 @@ public class DataManager {
 
     public void saveHistory(UUID playerId, List<TeleportRecord> records) {
         String playerPath = playerId.toString();
-        dataConfig.set(playerPath, null); // 清除现有数据
+        dataConfig.set(playerPath, null);
 
         ConfigurationSection playerSection = dataConfig.createSection(playerPath);
 
@@ -45,7 +45,6 @@ public class DataManager {
             TeleportRecord record = records.get(i);
             ConfigurationSection recordSection = playerSection.createSection(String.valueOf(i));
 
-            // 保存位置信息
             Location loc = record.getLocation();
             recordSection.set("world", loc.getWorld().getName());
             recordSection.set("x", loc.getX());
@@ -54,7 +53,6 @@ public class DataManager {
             recordSection.set("yaw", loc.getYaw());
             recordSection.set("pitch", loc.getPitch());
 
-            // 保存其他数据
             recordSection.set("time", record.getTime());
             recordSection.set("biome", record.getBiome().toString());
         }
@@ -75,7 +73,6 @@ public class DataManager {
             if (recordSection == null) continue;
 
             try {
-                // 重建Location对象
                 String worldName = recordSection.getString("world");
                 double x = recordSection.getDouble("x");
                 double y = recordSection.getDouble("y");
@@ -93,7 +90,6 @@ public class DataManager {
                         x, y, z, yaw, pitch
                 );
 
-                // 获取其他数据
                 long time = recordSection.getLong("time");
                 Biome biome = Biome.valueOf(recordSection.getString("biome"));
 

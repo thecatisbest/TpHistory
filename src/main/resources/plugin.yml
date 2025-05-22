@@ -9,5 +9,5 @@ commands:
     usage: /backui
 permissions:
   tphistory.use:
-    description: 允许使用传送历史功能
+    description: 允許使用傳送歷史功能
     default: true
