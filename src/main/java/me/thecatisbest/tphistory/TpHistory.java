@@ -20,7 +20,7 @@ public class TpHistory extends JavaPlugin {
         teleportGUI = new TeleportGUI(this);
 
         getLogger().info("插件加載成功!");
-        getLogger().info("以下資訊是由貴服强制要求標注:");
+        getLogger().info("以下資訊是由貴服強制要求標注:");
         getLogger().info("此功能的靈感來源于 輝煌伺服器");
         getLogger().info("原項目連結:");
         getLogger().info("https://github.com/BrilliantTeam/TpHistory");
